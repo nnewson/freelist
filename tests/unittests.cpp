@@ -29,7 +29,7 @@ struct TestNode
 
 struct AlignmentNode
 {
-    AlignmentNode(unsigned val1, unsigned val2)
+    AlignmentNode(unsigned val1, bool val2)
         : m_val1(val1)
         , m_val2(val2)
         , m_blank('A')
@@ -176,7 +176,7 @@ void testMaxAllocations(std::unique_ptr< T >& freeList)
     }
     ASSERT_FALSE(freeList->construct(0, 0));
 
-    // Verrify all nodes still good
+    // Verify all nodes still good
     for (size_t i = 0 ; i < c_freeListSize ; ++i) {
         EXPECT_EQ(nodes[i]->m_val1, i);
         EXPECT_EQ(nodes[i]->m_val2, i + offset);

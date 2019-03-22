@@ -65,13 +65,13 @@ struct RandomIndex
         }
     }
 
-    std::array< unsigned, c_perfFreeListSize >  m_index;
+    std::array< size_t, c_perfFreeListSize >  m_index;
 };
 
 // Globals
 RandomIndex g_randomIndex;
 
-// This methods is used to randomise the internal linked list to stop sequenial cache access
+// This methods is used to randomise the internal linked list to stop sequential cache access
 // artificially inflating performance compared to real world usage
 template< typename T >
 void randomiseFreeList(std::unique_ptr< T >& freeList)

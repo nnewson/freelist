@@ -32,7 +32,7 @@ namespace fl {
     template<typename T>
     struct FreeListAlloc {
         template<typename... Args>
-        FreeListAlloc(void *const alloc, Args... args)
+        explicit FreeListAlloc(void *const alloc, Args... args)
                 : m_allocator(alloc), m_data(std::forward<Args>(args)...) {
         }
 
@@ -130,7 +130,7 @@ namespace fl {
                     return ptr(&rtnObj->m_data);
                 }
                 catch (...) {
-                    // A constructor throw. Repair headm_
+                    // A constructor throw. Repair head
                     m_head->setNext(next);
                     throw;
                 }
@@ -284,7 +284,7 @@ namespace fl {
             if ( (m_array = reinterpret_cast< AllocT* >(std::aligned_alloc(alignof(AllocT), sizeof(AllocT) * (size + 1)))) == nullptr ) {
                 throw std::bad_alloc();
             }
-            FreeListBase< T, Construct, Destroy >::initFreeList(reinterpret_cast<AllocT*>(m_array), size);
+            FreeListBase< T, Construct, Destroy >::initFreeList(m_array, size);
         }
 
         ~FreeListDynamic() {
