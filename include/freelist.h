@@ -79,7 +79,8 @@ namespace fl {
                     auto rtnObj = new(reinterpret_cast< void * >(head)) FreeListAlloc<T>(this,
                                                                                          std::forward<Args>(args)...);
                     return ptr(&rtnObj->m_data);
-                } catch (...) {
+                }
+                catch (...) {
                     // A constructor throw. We need to repair head and put it back in the list
                     do {
                         head->setNext(next);
@@ -88,7 +89,8 @@ namespace fl {
 
                     throw;
                 }
-            } else {
+            }
+            else {
                 return nullptr;
             }
         }
@@ -126,12 +128,14 @@ namespace fl {
                                                                                            std::forward<Args>(args)...);
                     m_head = next;
                     return ptr(&rtnObj->m_data);
-                } catch (...) {
+                }
+                catch (...) {
                     // A constructor throw. Repair headm_
                     m_head->setNext(next);
                     throw;
                 }
-            } else {
+            }
+            else {
                 return nullptr;
             }
         }
@@ -277,7 +281,7 @@ namespace fl {
         explicit FreeListDynamic(const size_t size) {
             static_assert(sizeof(T) >= sizeof(FreeListNode), "Size of T must be greater or equal to FreeListNode");
 
-            if ( (m_array = reinterpret_cast< AllocT* >(std::aligned_alloc(alignof(AllocT), size))) == nullptr ) {
+            if ( (m_array = reinterpret_cast< AllocT* >(std::aligned_alloc(alignof(AllocT), sizeof(AllocT) * (size + 1)))) == nullptr ) {
                 throw std::bad_alloc();
             }
             FreeListBase< T, Construct, Destroy >::initFreeList(reinterpret_cast<AllocT*>(m_array), size);
