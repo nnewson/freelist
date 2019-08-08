@@ -72,8 +72,7 @@ namespace fl {
             do {
                 next = head->next();
             } while (next &&
-                     !m_head.compare_exchange_
-                     (head, next, std::memory_order_acq_rel, std::memory_order_acquire));
+                     !m_head.compare_exchange_weak(head, next, std::memory_order_acq_rel, std::memory_order_acquire));
 
             if (next) {
                 try {
