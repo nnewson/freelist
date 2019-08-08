@@ -72,7 +72,8 @@ namespace fl {
             do {
                 next = head->next();
             } while (next &&
-                     !m_head.compare_exchange_strong(head, next, std::memory_order_acq_rel, std::memory_order_acquire));
+                     !m_head.compare_exchange_
+                     (head, next, std::memory_order_acq_rel, std::memory_order_acquire));
 
             if (next) {
                 try {
@@ -84,7 +85,7 @@ namespace fl {
                     // A constructor throw. We need to repair head and put it back in the list
                     do {
                         head->setNext(next);
-                    } while (!m_head.compare_exchange_strong(next, head, std::memory_order_acq_rel,
+                    } while (!m_head.compare_exchange_weak(next, head, std::memory_order_acq_rel,
                                                              std::memory_order_acquire));
 
                     throw;
