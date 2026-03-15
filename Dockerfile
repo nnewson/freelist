@@ -14,7 +14,7 @@ COPY vcpkg.json vcpkg-configuration.json CMakeLists.txt CMakePresets.json ./
 COPY include/ include/
 COPY tests/ tests/
 
-RUN cmake --preset vcpkg
+RUN cmake --preset vcpkg -DCMAKE_BUILD_TYPE=Release
 RUN cmake --build build
 
 FROM ubuntu:24.04
