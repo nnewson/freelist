@@ -8,6 +8,7 @@ project(free_list
 
 find_package(GTest CONFIG REQUIRED)
 find_package(Boost CONFIG REQUIRED)
+find_package(benchmark CONFIG REQUIRED)
 
 # Header-only library target for free_list
 add_library(freelist INTERFACE)
@@ -25,6 +26,5 @@ target_link_libraries(test_freelist PRIVATE freelist GTest::gtest_main)
 include(GoogleTest)
 gtest_discover_tests(test_freelist)
 
-add_executable(perf_test_freelist tests/perf_test_freelist.cpp)
-target_link_libraries(perf_test_freelist PRIVATE freelist Boost::headers GTest::gtest_main)
-gtest_discover_tests(perf_test_freelist)
+add_executable(bench_freelist tests/bench_freelist.cpp)
+target_link_libraries(bench_freelist PRIVATE freelist Boost::headers benchmark::benchmark_main)
